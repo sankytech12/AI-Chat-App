@@ -4,8 +4,13 @@ import SendIcon from "@mui/icons-material/Send";
 import { TextField, Button, Box } from "@mui/material";
 
 import useChat from "../hooks/useChat";
+import { useDarkMode } from "../context/DarkModeContext";
+
 
 const MessageInput = () => {
+    const {isDarkMode}=useDarkMode();
+    console.log(isDarkMode);
+    
   const { message, setMessage, handleSend } = useChat();
 
   return (
@@ -17,6 +22,36 @@ const MessageInput = () => {
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
         placeholder="Type a message..."
+        sx={{
+            "& .MuiOutlinedInput-root": {
+              color: `${isDarkMode ? "#faf5f5" : "#2e2e2e"}`,
+              fontFamily: "Arial",
+              fontWeight: "bold",
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: `${isDarkMode && "#faf5f5" }`,
+                borderWidth: "2px",
+              },
+              "&.Mui-focused": {
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: `${isDarkMode ? "#faf5f5" : "#2e2e2e"}`,
+                  borderWidth: "3px",
+                },
+              },
+              "&:hover:not(.Mui-focused)": {
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: `${isDarkMode ? "#ccc" : "#2e2e2e"}`,
+                },
+              },
+            },
+            "& .MuiInputLabel-outlined": {
+              color: "#faf5f5",
+              fontWeight: "bold",
+              "&.Mui-focused": {
+                color: "secondary.main",
+                fontWeight: "bold",
+              },
+            },
+          }}
       ></TextField>
       <Button
         variant="contained"

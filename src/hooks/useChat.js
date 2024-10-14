@@ -6,7 +6,8 @@ import model from "../utils/genai";
 const useChat = () => {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
-
+    console.log("useChat -> dispatch");
+    
   // Initialize the chat model
   const chat = model.startChat({
     history: [
@@ -23,6 +24,7 @@ const useChat = () => {
 
   // Function to handle AI response
   const handleAiResponse = async (message) => {
+    
     let result = await chat.sendMessage(message);
     const responseText = result.response.text();
     dispatch(

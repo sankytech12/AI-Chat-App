@@ -6,6 +6,7 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import DarkModeToggle from './components/DarkModeToggle';
 
 import './App.css'
+import DarkModeProvider from './context/DarkModeContext';
 
 const theme = createTheme();
 
@@ -15,12 +16,14 @@ function App() {
     <div className="bg-white dark:bg-[#131314] text-black dark:text-white h-[100vh]">
       <Provider store={store}>
         <ThemeProvider theme={theme}>
+          <DarkModeProvider>
           <CssBaseline />
           <header className="flex justify-between items-center p-4">
             <h1 className="text-2xl font-bold">Chat Application</h1>
             <DarkModeToggle />
           </header>
           <Chat />
+          </DarkModeProvider>
         </ThemeProvider>
       </Provider>
     </div>
