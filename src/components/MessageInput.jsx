@@ -1,15 +1,18 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import SendIcon from "@mui/icons-material/Send";
 import { TextField, Button, Box } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import useChat from "../hooks/useChat";
 import { useDarkMode } from "../context/DarkModeContext";
 
 
+
 const MessageInput = () => {
     const {isDarkMode}=useDarkMode();
-    console.log(isDarkMode);
+    const {isLoading}=useSelector((state)=>state.chat);
     
   const { message, setMessage, handleSend } = useChat();
 
@@ -56,9 +59,10 @@ const MessageInput = () => {
       <Button
         variant="contained"
         onClick={handleSend}
+        disabled={isLoading}
         className="w-2/12 flex gap-2 rounded-md"
       >
-        Send <SendIcon />
+        {isLoading ? <CircularProgress size={24} /> :  (<SendIcon />)}
       </Button>
     </Box>
   );

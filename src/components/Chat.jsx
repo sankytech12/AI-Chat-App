@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { receiveMessage } from "../store/chatSlice";
+
+
 import { Box, Container, Typography } from "@mui/material";
+
+import { receiveMessage } from "../store/chatSlice";
 import Message from "./Message";
 import MessageInput from "./MessageInput";
-import { useRef } from "react";
-import model from "../utils/genai";
+
 
 const Chat = () => {
   const chatEndRef = useRef(null);

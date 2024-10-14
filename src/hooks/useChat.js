@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { sendMessage, receiveMessage } from "../store/chatSlice";
+
+import { sendMessage, receiveMessage,setIsLoading } from "../store/chatSlice";
 import model from "../utils/genai";
 
 const useChat = () => {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
-    console.log("useChat -> dispatch");
     
   // Initialize the chat model
   const chat = model.startChat({
@@ -24,15 +24,24 @@ const useChat = () => {
 
   // Function to handle AI response
   const handleAiResponse = async (message) => {
-    
-    let result = await chat.sendMessage(message);
-    const responseText = result.response.text();
-    dispatch(
-      receiveMessage({
-        text: responseText,
-        timestamp: new Date().toLocaleTimeString(),
-      })
-    );
+    try {
+        console.log("Setting isLoading to true");
+        dispatch(setIsLoading(true));
+        let result = await chat.sendMessage(message);
+        const responseText = result.response.text(); 
+        dispatch(
+          receiveMessage({
+            text: responseText,
+            timestamp: new Date().toLocaleTimeString(),
+          })
+        );
+      } catch (error) {
+        console.error("Error fetching AI response: ", error);
+        dispatch(setIsLoading(false));
+      } finally {
+        console.log("Setting isLoading to false");
+        dispatch(setIsLoading(false)); 
+      }
   };
 
   // Function to handle message send
@@ -53,7 +62,7 @@ const useChat = () => {
   return {
     message,
     setMessage,
-    handleSend,
+    handleSend
   };
 };
 
